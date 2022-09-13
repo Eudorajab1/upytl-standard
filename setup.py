@@ -3,7 +3,7 @@ from setuptools import setup
 
 
 def get_module_var(varname):
-    src = 'upytl-standard'
+    src = 'upytl_standard'
     regex = re.compile(fr"^{varname}\s*\=\s*['\"](.+?)['\"]", re.M)
     mobj = next(regex.finditer(open(f"{src}/__init__.py").read()))
     return mobj.groups()[0]
@@ -40,7 +40,7 @@ setup(
         "Topic :: Text Processing :: Markup :: HTML",
     ],
     install_requires=[
-        "upytl",
+        "upytl>=0.0.3",
     ],
     python_requires='>=3.7',
     packages=['upytl_standard'],

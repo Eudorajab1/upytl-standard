@@ -22,7 +22,7 @@ class HTMLPage(Component):
                 
                 Slot(SlotName=b'nav'):{
                     h.Div():'No NavBar passed to the form'
-                },    
+                },
                 Slot(SlotName=b'content'):{h.Div(): '[there is no default content]'},
                 Slot(SlotName=b'footer'):{h.Div(): 'This is the footer placeholder'},
             }
@@ -62,7 +62,7 @@ class NavBarItem(Component):
     }
 
 
-class Navbar(Component):
+class NavBar(Component):
     props = dict(
         menu = [],
     )
@@ -98,6 +98,26 @@ class TextAreaField(Component):
         },
         h.P(If='err', Class='help has-text-danger'): '[[ err ]]'    
     } 
+
+class TreeView(Component):
+    """
+    This class demonstrates the use of the `template_factory` method
+    which allows to recursively use the component in its template.
+    """
+    props = dict(
+        tree=[],
+        depth=0
+    )
+
+    @staticmethod
+    def template_factory():
+        return {
+            h.Div(For='it in tree', Style={'margin-left': {'f"{depth * 4}px"'} }): {
+                h.Div(): '[[ it["name"] ]]',
+                TreeView(If='"nodes" in it', depth={'depth+1'}, tree={'it["nodes"]'}): ''
+            },
+        }
+
 
 class StringField(Component):
     props = dict(
@@ -209,105 +229,45 @@ class RadioField(Component):
 
 class Field(Component):
     props = dict(
-        field = None,
-        val = None,
-        err = None,
+        name='[no name]',
+        value='',
+        type='text',
+        # for select
+        options=[],
     )
-    
     template = {
-        h.Div(): {
-            h.Template(If='field.type =="text"'):{
-                TextAreaField(
-                    field = {'field'},
-                    val = {'val'},
-                    err = {'err'}
         
-                ): '',
-            },
-            h.Template(Elif='field.type=="select"'):{
-                SelectField(
-                    field = {'field'},
-                    val = {'val'},
-                    err = {'err'}
-        
-                ): '',
-            },
-            
-            h.Template(Elif='field.type=="boolean"'):{
-                h.Template(If='field.widget == "Checkbox"'):{
-                    CheckBoxField(
-                        field = {'field'},
-                        val = {'val'},
-                        err = {'err'}
-        
-                    ): '',    
+        h.Div(Class='field'):{
+            h.Label(If='type=="text"'):{
+                h.Text():'[[name]]',
+                h.Div(Class='control'):{
+                    h.Input(name='{name}', value='{value}'):'',        
                 },
-                h.Template(Elif='field.widget == "Radio"'):{
-                    RadioField(
-                        field = {'field'},
-                        val = {'val'},
-                        err = {'err'}
-        
-                    ): '',    
+            },
+            h.Label(Elif='type=="select"'):{
+                h.Text():'[[name]]',
+                h.Select(name='{name}'):{
+                    h.Option(For='opt in options', value='{opt[value]}', selected={'opt["value"]==value'}):
+                         '[[ opt.get("name", opt["value"]) ]]'
                 },
-                h.Template(Else=''):{
-                    StringField(
-                        field = {'field'},
-                        val = {'val'},
-                        err = {'err'}
-                    ): '',
-                },    
             },
-            
-            h.Template(Elif='field.type =="string"'):{
-                StringField(
-                    field={'field'},
-                    val = {'val'},
-                    err = {'err'}
-                ): '',
-            },
-            
-            h.Template(Elif='field.type=="upload"'):{
-                FileField(
-                    field={'field'},
-                    val = {'val'},
-                    err = {'err'}
-                ): ''        
-            },
-            h.Template(Elif='field.type == "password"'):{
-                PasswordField(
-                    field={'field'},
-                    val = {'val'},
-                    err = {'err'}
-
-                ): ''        
-            },
-        }
+        }            
         
     }
-
 class Form(Component):
     props = dict(
-        fields=None,
-        vals = {},
-        errs = {},
-        flash = None
+        fields=None
     )
     template = {
-        h.Form(If='fields', method='POST', Class='box', enctype='multipart/form-data'):{
-            h.Template(For='fld in fields'):{
-                h.Div(Class='field'):{
-                    Field(
-                    field = {'fld'},
-                    val = {'vals.get(fld.name, None)'},
-                    err = {'errs.get(fld.name, None)'},
-                    ):{},
-                },
+        h.Form(If='fields', action='#'):{
+            h.Div(For='fld in fields', Style={'margin':'15px'}):{
+                Field(
+                    name='{fld[name]}',  type={'fld.get("type", "text")'},
+                    value={'fld.get("value", "")'},
+                    options={'fld.get("options", None)'},
+                ):'',
             },
-            h.Div(Class='field'):{
-                h.Input(Class='button is-success is-light is-small', type='submit', value='Submit'): '',
-                h.Input(Class='button is-danger is-light is-small', type='reset', value='Cancel'): '',
-            }
+            h.Button(type='submit'): 'Submit'
         },
         h.Div(Else=''): 'Sorry, no fields were passed to this form'
     }
