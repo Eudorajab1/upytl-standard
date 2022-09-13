@@ -3,7 +3,7 @@ from setuptools import setup
 
 
 def get_module_var(varname):
-    src = 'upytl-components'
+    src = 'upytl-standard'
     regex = re.compile(fr"^{varname}\s*\=\s*['\"](.+?)['\"]", re.M)
     mobj = next(regex.finditer(open(f"{src}/__init__.py").read()))
     return mobj.groups()[0]
@@ -17,7 +17,7 @@ __version__ = get_module_var('__version__')
 setup(
     name="upytl-componenets",
     version=__version__,
-    url="https://github.com/Eudorajab1/upytl-components",
+    url="https://github.com/Eudorajab1/upytl-standard",
     license=__license__,
     author=__author__,
     author_email="eudorajab1@gmail.com",
@@ -41,5 +41,5 @@ setup(
     ],
     python_requires='>=3.7',
     required='upytl'
-    packages=['upytl-components'],
+    packages=['upytl-standard'],
 )
