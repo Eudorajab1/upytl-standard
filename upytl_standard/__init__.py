@@ -3,7 +3,7 @@ from .s_components import *
 __all__ = (
     'HTMLPage',
     'NavBarItem',
-    'NavBar',
+    'StandardNavBar',
     'TextAreaField',
     'TreeView',
     'StringField',
@@ -12,7 +12,7 @@ __all__ = (
     'FileField',
     'CheckBoxField',
     'RadioField',
-    'Field',
+    'StandardField',
     'Form',
 )
 
