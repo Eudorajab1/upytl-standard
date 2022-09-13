@@ -15,7 +15,7 @@ __version__ = get_module_var('__version__')
 
 
 setup(
-    name="upytl-standard",
+    name="upytl_standard",
     version=__version__,
     url="https://github.com/Eudorajab1/upytl-standard",
     license=__license__,
@@ -39,7 +39,9 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Text Processing :: Markup :: HTML",
     ],
+    install_requires=[
+        "upytl",
+    ],
     python_requires='>=3.7',
-    required='upytl',
-    packages=['upytl-standard'],
+    packages=['upytl_standard'],
 )
