@@ -15,7 +15,7 @@ __version__ = get_module_var('__version__')
 
 
 setup(
-    name="upytl-componenets",
+    name="upytl-standard",
     version=__version__,
     url="https://github.com/Eudorajab1/upytl-standard",
     license=__license__,
@@ -40,6 +40,6 @@ setup(
         "Topic :: Text Processing :: Markup :: HTML",
     ],
     python_requires='>=3.7',
-    required='upytl'
+    required='upytl',
     packages=['upytl-standard'],
 )
