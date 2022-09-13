@@ -9,62 +9,236 @@
   <body>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
-    <div>
-      No NavBar passed to the form
-    </div>
+    <nav Role="navigation" class="navbar is-primary">
+      <div class="navbar-brand">
+        <a href="https://bulma.io" class="navbar-item"></a>
+      </div>
+      <div Id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a Href="Home" class="navbar-item">
+            Home
+          </a>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              UPYTL
+            </a>
+            <div class="navbar-dropdown is-boxed">
+              <a Href="index" class="navbar-item">
+                About
+              </a>
+              <a Href="using" class="navbar-item">
+                Using
+              </a>
+              <a Href="customisng" class="navbar-item">
+                Customising
+              </a>
+            </div>
+          </div>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              Components
+            </a>
+            <div class="navbar-dropdown is-boxed">
+              <a Href="comp_about" class="navbar-item">
+                About
+              </a>
+              <a Href="comp_using" class="navbar-item">
+                Using
+              </a>
+              <a Href="customisng" class="navbar-item">
+                Customising
+              </a>
+            </div>
+          </div>
+          <a Href="None" class="navbar-item">
+            Another Menu
+          </a>
+          <a Href="None" class="navbar-item">
+            And one More
+          </a>
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div>
+              Welcome John
+            </div>
+          </div>
+          <div class="navbar-item">
+            <div class="buttons">
+              <a Href="#" class="button is-link">
+                Log In
+              </a>
+              <a Href="#" class="button is-link">
+                Profile
+              </a>
+              <a Href="#" class="button is-link">
+                Log Out
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
     <div class="box">
-      Hey John! How are you?
-    </div>
-    <div class="box">
-      <form action="#">
-        <div style="margin:15px">
-          <div class="field">
-            <label>
-              Friend Name
-              <div class="control">
-                <input name="Friend Name" value="Tom?" />
+      <div>
+        <div class="box">
+          <form action="#">
+            <div style="margin:15px">
+              <div>
+                <label class="label">
+                  Text Field with value
+                </label>
+                <div class="control">
+                  <input type="text" name="Text Field with value" value="Tom is the man" placeholder="Tom" class="input" />
+                </div>
+                <p class="help has-text-danger">
+                </p>
               </div>
-            </label>
-          </div>
-        </div>
-        <div style="margin:15px">
-          <div class="field">
-            <label>
-              Email
-              <div class="control">
-                <input name="Email" value="" />
+            </div>
+            <div style="margin:15px">
+              <div>
+                <label class="label">
+                  Email field with Placeholder
+                  <div class="control">
+                    <input type="email" name="Email field with Placeholder" value="" placeholder="Email field placeholder" class="input" />
+                  </div>
+                  <p class="help has-text-danger">
+                  </p>
+                </label>
               </div>
-            </label>
+            </div>
+            <div style="margin:15px">
+              <div>
+                <label class="label">
+                  Select Field
+                </label>
+                <div class="control">
+                  <select name="Select Field">
+                    <option value="#FF0000" class="js-states form-control">
+                      Choose red
+                    </option>
+                    <option value="#00FF00" class="js-states form-control">
+                      Choose geen
+                    </option>
+                    <option value="#0000FF" class="js-states form-control">
+                      Choose blue
+                    </option>
+                    <option value="#888888" class="js-states form-control">
+                      Choose gray
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div style="margin:15px">
+              <div>
+                <label class="label required">
+                  Password Field
+                </label>
+                <div class="control">
+                  <input type="password" name="Password Field" value="value" class="input" />
+                </div>
+              </div>
+            </div>
+            <div style="margin:15px">
+              <div>
+                <label class="label">
+                  Text Area Field
+                </label>
+                <div class="control">
+                  <textarea placeholder="placeholder" class="textarea">
+                  </textarea>
+                </div>
+              </div>
+            </div>
+            <div style="margin:15px">
+              <div>
+                <div class="control">
+                  <label class="radio"></label>
+                  <input Type="radio" name="name" />
+                    Radio Field
+                  </div>
+                </div>
+              </div>
+              <div style="margin:15px">
+                <div>
+                  <label class="checkbox">
+                    <input type="checkbox" name="name" checked="" />
+                      Checkbox Field
+                    </label>
+                  </div>
+                </div>
+                <div style="margin:15px">
+                  <div>
+                    <label class="label">
+                      File Upload Field
+                    </label>
+                    <input type="file" name="File Upload Field" accept="image/*" />
+                  </div>
+                </div>
+                <button type="submit">
+                  Submit
+                </button>
+              </form>
+            </div>
           </div>
         </div>
-        <div style="margin:15px">
-          <div class="field">
-            <label>
-              Favorite Color
-              <select name="Favorite Color">
-                <option value="#FF0000">
-                  red
-                </option>
-                <option value="#00FF00">
-                  geen
-                </option>
-                <option value="#0000FF">
-                  blue
-                </option>
-                <option value="#888888" selected>
-                  gray
-                </option>
-              </select>
-            </label>
+        <div class="box">
+          <h4 class="title is-4">
+            Tree-view example using template_factory():
+          </h4>
+          <div style="margin-left:0px">
+            <div>
+              Top
+            </div>
+            <div style="margin-left:4px">
+              <div>
+                child-1
+              </div>
+            </div>
+            <div style="margin-left:4px">
+              <div>
+                child-2
+              </div>
+              <div style="margin-left:8px">
+                <div>
+                  2-child-1
+                </div>
+              </div>
+              <div style="margin-left:8px">
+                <div>
+                  2-child-2
+                </div>
+              </div>
+              <div style="margin-left:8px">
+                <div>
+                  2-child-3
+                </div>
+                <div style="margin-left:12px">
+                  <div>
+                    2-child-3/#1
+                  </div>
+                </div>
+                <div style="margin-left:12px">
+                  <div>
+                    2-child-3/#2
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-left:4px">
+              <div>
+                child-3
+              </div>
+            </div>
           </div>
         </div>
-        <button type="submit">
-          Submit
-        </button>
-      </form>
-    </div>
-    <div>
-      This is the footer placeholder
-    </div>
-  </body>
-</html>
+        <footer class="footer is-small">
+          <div class="content has-text-centered">
+            <p>
+              Powered by UPYTL Standard Components (c) 2022
+            </p>
+          </div>
+        </footer>
+      </body>
+    </html>

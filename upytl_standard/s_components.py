@@ -24,7 +24,15 @@ class HTMLPage(Component):
                     h.Div():'No NavBar passed to the form'
                 },
                 Slot(SlotName=b'content'):{h.Div(): '[there is no default content]'},
-                Slot(SlotName=b'footer'):{h.Div(): 'This is the footer placeholder'},
+                Slot(SlotName=b'footer'):{
+                    h.Footer(Class="footer is-small"):{
+                        h.Div(Class= "content has-text-centered"):{
+                            h.Template():{
+                                h.P(): 'Powered by UPYTL Standard Components (c) 2022',
+                            }    
+                        }
+                    }
+                }
             }
         }
     }
@@ -35,11 +43,11 @@ class NavBarItem(Component):
     )
     template = {
         h.Template(If='not item.get("child")'):{
-            h.A(Class='navbar-item has-text-primary is-size-5', Href={'item.get("href")'}): "[[ item['label'] ]]",
+            h.A(Class='navbar-item', Href={'item.get("href")'}): "[[ item['label'] ]]",
         },
         h.Template(Else=''):{
             h.Div(Class='navbar-item has-dropdown is-hoverable'): {
-                h.A(Class='navbar-link has-text-primary is-size-5 has-text-weight-semibold is-arrowless'): "[[ item['label'] ]]",
+                h.A(Class='navbar-link'): "[[ item['label'] ]]",
                 h.Div(Class='navbar-dropdown is-boxed'): {
                     h.Template(For='ch in item.get("child")'): {
                         h.Template(If='not ch.get("child")'):{
@@ -61,13 +69,14 @@ class NavBarItem(Component):
         }
     }
 
-
-class NavBar(Component):
+class StandardNavBar(Component):
     props = dict(
         menu = [],
+        user = '',
+        buttons=[]
     )
     template = {
-        h.Nav(Class='navbar is-light', Role='navigation'): {
+        h.Nav(Class='navbar is-primary', Role='navigation'): {
             h.Div(Class='navbar-brand'): {
                 h.A(Class='navbar-item', href="https://bulma.io"): '',   
             },
@@ -79,24 +88,41 @@ class NavBar(Component):
                         ):'',
                     },
                 },
+                h.Div(Class='navbar-end'): {
+                    h.Div(Class='navbar-item'): {
+                        h.Div(): 'Welcome [[ user.title() ]]',
+                    },
+                    h.Div(Class='navbar-item'): {
+                        h.Template(If = 'not buttons'):{
+                            h.Div(): '',
+                        },
+                        h.Template(Else = ''):{
+                            h.Div(Class='buttons'):{
+                                h.A(For = 'b in buttons',Class={'b.get("class", "button is-link")'}, Href={'b.get("href", "index")'}):'[[ b["name"] ]]',
+                            },
+                        }        
+                    }
+                }
             }
         }    
     }
    
 class TextAreaField(Component):
     props = dict(
-        field = None,
-        val = None,
-        err = None
+        name='[no name]',
+        value=None,
+        type='textarea',
+        placeholder = None,
+        error = None
     )
     template = {
         h.Label(Class='label'):{
-            h.Text():'[[field.label]]',
+            h.Text():'[[name]]',
         },
         h.Div(Class='control'): {
-            h.Textarea(Class='textarea', name={'field.name'}):'[[val]]',
+            h.Textarea(Class='textarea', placeholder='placeholder'):'[[value]]',
         },
-        h.P(If='err', Class='help has-text-danger'): '[[ err ]]'    
+        h.P(If='error', Class='help has-text-danger'): '[[ error ]]'    
     } 
 
 class TreeView(Component):
@@ -110,7 +136,8 @@ class TreeView(Component):
     )
 
     @staticmethod
-    def template_factory():
+    def template_factory(cls):
+        TreeView = cls
         return {
             h.Div(For='it in tree', Style={'margin-left': {'f"{depth * 4}px"'} }): {
                 h.Div(): '[[ it["name"] ]]',
@@ -118,21 +145,43 @@ class TreeView(Component):
             },
         }
 
-
 class StringField(Component):
     props = dict(
-        field = None,
-        val = None,
-        err = None
+        name='[no name]',
+        value='',
+        type='string',
+        placeholder= '',
+        error = None
     )
     template = {
         h.Template():{
             h.Label(Class='label'):{
-                h.Text():'[[field.label ]]',
-                h.Div(Class='control'): {
-                h.Input(Class='input', type='text', name={'field.name'}, value={'val'}):'',
+                h.Text():'[[ name ]]',
             },
-            h.P(Class='help has-text-danger'): '[[ err ]]'    
+            h.Div(Class='control'): {
+                h.Input(Class='input', type='text', name={'name'}, value={'value'}, placeholder={'placeholder'}):'',
+            },
+            h.P(Class='help has-text-danger'): '[[ error ]]'    
+        
+        }    
+    }
+
+class EmailField(Component):
+    props = dict(
+        name='[no name]',
+        value='',
+        type='email',
+        placeholder='',
+        error = None
+    )
+    template = {
+        h.Template():{
+            h.Label(Class='label'):{
+                h.Text():'[[ name ]]',
+                h.Div(Class='control'): {
+                h.Input(Class='input', type='email', name={'name'}, value={'value'}, placeholder={'placeholder'}):'',
+            },
+            h.P(Class='help has-text-danger'): '[[ error ]]'    
         
             },
         }    
@@ -140,134 +189,196 @@ class StringField(Component):
 
 class PasswordField(Component):
     props = dict(
-        field = None,
-        val = None,
-        err = None
+        name='[no name]',
+        value='',
+        type='password',
+        error = None
     )
     template = {
         h.Label(Class='label required'):{
-            h.Text():'[[field.label ]]',
+            h.Text():'[[ name ]]',
             },
             h.Div(Class='control'): {
-                h.Input(Class='input', type='password', name={'field.name'}, value={'val'}):'',
+                h.Input(Class='input', type='password', name={'name'}, value='value'):'',
             },
-            h.P(If='err', Class='help has-text-danger'): '[[ err ]]'
+            h.P(If='error', Class='help has-text-danger'): '[[ error ]]'
     }
 
 class SelectField(Component):
     props = dict(
-        field = None,
+        name='[no name]',
+        value='',
+        type='select',
+        error = None,
+        options = []
     )
     template = {
         h.Label(Class='label'):{
-        h.Text():'[[field.get("name") ]]',
+        h.Text():'[[ name ]]',
         },
         h.Div(Class='control'): {
-            h.Select(name={'field.get("name")'}):{
-                h.Option(For='opt in field.get("options")', Class="js-states form-control", value={'opt.get("value")'}): 
+            h.Select(name={'name'}):{
+                h.Option(For='opt in options', Class="js-states form-control", value={'opt.get("value")'}): 
                     '[[ opt.get("name", opt["value"]) ]]'
             },    
         }
     }    
 class FileField(Component):
     props = dict(
-        field = None,
-        val = {},
-        err = {}
+        name='[no name]',
+        value='',
+        type='file',
+        error = None
     )
     template = {
         h.Label(Class='label'):{
-            h.Text():'[[field.name]]',
+            h.Text():'[[name]]',
         },
-        h.Input(type='file', name={'field.name'}, accept="image/*"):'',
+        h.Input(type='file', name={'name'}, accept="image/*"):'',
     }
 
 class CheckBoxField(Component):
     props = dict(
-        field = None,
-        val = None,
-        err = None
+        name='[no name]',
+        value='',
+        type='checkbox',
+        error = None
     )
     template = {
         h.Label(Class='checkbox'):{
-            h.Template(If='val'):{
-                h.Input(type='checkbox', name={'field.name'},checked=''):'[[field.name]]',
+            h.Template(If='value'):{
+                h.Input(type='checkbox', name='name',checked=''):'[[name]]',
             },
             h.Template(Else=''):{
-                h.Input(type='checkbox', name={'field.name'}):'[[field.name]]',
-                
+                h.Input(type='checkbox', name='name'):'[[name]]',
             }
-            
         },
-        h.P(If='err', Class='help has-text-danger'): '[[ err ]]'
-            
+        h.P(If='error', Class='help has-text-danger'): '[[ error ]]'
     }
 
 class RadioField(Component):
     props = dict(
-        field = None,
-        val = None,
-        err = None
+        name='[no name]',
+        value='',
+        type='radio',
+        error = None
     )
     template = {
         h.Div(Class='control'): {
             h.Label(Class="radio"):None,
             
-            h.Template(If='val'):{
-                h.Input(If='val', checked='', Type='radio', name={'field.name'}):'[[field.name]]',
+            h.Template(If='value'):{
+                h.Input(If='value', checked='', Type='radio', name='name'):'[[name]]',
             },
-            h.Template(Else=''):{
-                h.Input(If='val', Type='radio', name={'field.name'}):'[[field.name]]',
-                
+            h.Template( Else=''):{
+                h.Input(Type='radio', name='name'):'[[name]]',
             },
-                
         },
-        h.P(If='err', Class='help has-text-danger'): '[[ err ]]'
-        
+        h.P(If='error', Class='help has-text-danger'): '[[ error ]]'
     }
 
-
-class Field(Component):
+class StandardField(Component):
     props = dict(
-        name='[no name]',
-        value='',
-        type='text',
-        # for select
-        options=[],
+        name = None,
+        type = None,
+        value = None,
+        error = None,
+        placeholder=None,
+        options=[]
     )
+    
     template = {
+        h.Div(): {
+            h.Template(If='type =="textarea"'):{
+                TextAreaField(
+                    name = {'name'},
+                    value = {'value'},
+                    errror = {'error'},
+                    placeholder = {'placeholder'}
         
-        h.Div(Class='field'):{
-            h.Label(If='type=="text"'):{
-                h.Text():'[[name]]',
-                h.Div(Class='control'):{
-                    h.Input(name='{name}', value='{value}'):'',        
-                },
+                ): '',
             },
-            h.Label(Elif='type=="select"'):{
-                h.Text():'[[name]]',
-                h.Select(name='{name}'):{
-                    h.Option(For='opt in options', value='{opt[value]}', selected={'opt["value"]==value'}):
-                         '[[ opt.get("name", opt["value"]) ]]'
-                },
-            },
-        }            
+            h.Template(Elif='type=="select"'):{
+                SelectField(
+                    name = {'name'},
+                    value = {'value'},
+                    error = {'error'},
+                    options= {'options'}
         
+                ): '',
+            },
+            
+            h.Template(Elif='type=="checkbox"'):{
+                CheckBoxField(
+                    name = {'name'},
+                    value = {'value'},
+                    error = {'error'}
+                ): '',    
+            },
+            h.Template(Elif='type == "radio"'):{
+                RadioField(
+                    name = {'name'},
+                    value = {'value'},
+                    error = {'error'}
+                ): '',    
+            },
+            
+            h.Template(Elif='type =="text"'):{
+                StringField(
+                    name={'name'},
+                    value = {'value'},
+                    error = {'error'},
+                    placeholder = {'placeholder'}
+                ): '',
+            },
+            
+            h.Template(Elif='type=="file"'):{
+                FileField(
+                    name={'name'},
+                    value = {'value'},
+                    error = {'error'}
+                ): ''        
+            },
+            h.Template(Elif='type=="email"'):{
+                EmailField(
+                    name={'name'},
+                    value = {'value'},
+                    error = {'error'},
+                    placeholder = {'placeholder'}
+                ): ''        
+            },
+
+            h.Template(Elif='type == "password"'):{
+                PasswordField(
+                    name={'name'},
+                    value = {'value'},
+                    error = {'error'}
+
+                ): ''        
+            },
+        }
     }
+
 class Form(Component):
     props = dict(
         fields=None
     )
     template = {
-        h.Form(If='fields', action='#'):{
-            h.Div(For='fld in fields', Style={'margin':'15px'}):{
-                Field(
-                    name='{fld[name]}',  type={'fld.get("type", "text")'},
-                    value={'fld.get("value", "")'},
-                    options={'fld.get("options", None)'},
-                ):'',
+        h.Div(Class='box'):{
+
+            h.Form(If='fields', action='#'):{
+                h.Div(For='fld in fields', Style={'margin':'15px'}):{
+                    StandardField(
+                        name='{fld[name]}',  
+                        type={'fld.get("type", "text")'},
+                        value={'fld.get("value", "")'},
+                        error={'fld.get("error", "")'},
+                        options={'fld.get("options", "")'},
+                        placeholder={'fld.get("placeholder", "What the Fuck")'}
+                    ):'',
+                },
+                h.Button(type='submit'): 'Submit'
             },
-            h.Button(type='submit'): 'Submit'
-        },
-        h.Div(Else=''): 'Sorry, no fields were passed to this form'
+            h.Div(Else=''): 'Sorry, no fields were passed to this form'
+        }    
     }

@@ -40,7 +40,7 @@ setup(
         "Topic :: Text Processing :: Markup :: HTML",
     ],
     install_requires=[
-        "upytl>=0.0.3",
+        "upytl>=0.0.6",
     ],
     python_requires='>=3.7',
     packages=['upytl_standard'],
