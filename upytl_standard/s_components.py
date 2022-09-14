@@ -13,12 +13,15 @@ class HTMLPage(Component):
             h.Head():{
                 h.Title(): '[[page_title]]',
                 h.Meta(charset=b'utf-8'):'',
+                h.Link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css'):None, 
+                h.Link(rel="stylesheet", href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"):None,
+                h.Link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css", integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==", crossorigin="anonymous"):None,
+                
+                h.Script(src="https://code.jquery.com/jquery-3.5.1.js"):None,
+                h.Script(src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"):None,
+    
                 },
             h.Body():{
-                
-                h.Link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css'):None, 
-
-                h.Link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css", integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==", crossorigin="anonymous"):None,
                 
                 Slot(SlotName=b'nav'):{
                     h.Div():'No NavBar passed to the form'
@@ -113,7 +116,7 @@ class TextAreaField(Component):
         value=None,
         type='textarea',
         placeholder = None,
-        error = None
+        error = ''
     )
     template = {
         h.Label(Class='label'):{
@@ -151,7 +154,7 @@ class StringField(Component):
         value='',
         type='string',
         placeholder= '',
-        error = None
+        error = ''
     )
     template = {
         h.Template():{
@@ -172,7 +175,7 @@ class EmailField(Component):
         value='',
         type='email',
         placeholder='',
-        error = None
+        error = ''
     )
     template = {
         h.Template():{
@@ -192,7 +195,7 @@ class PasswordField(Component):
         name='[no name]',
         value='',
         type='password',
-        error = None
+        error = ''
     )
     template = {
         h.Label(Class='label required'):{
@@ -209,7 +212,7 @@ class SelectField(Component):
         name='[no name]',
         value='',
         type='select',
-        error = None,
+        error = '',
         options = []
     )
     template = {
@@ -228,7 +231,7 @@ class FileField(Component):
         name='[no name]',
         value='',
         type='file',
-        error = None
+        error = ''
     )
     template = {
         h.Label(Class='label'):{
@@ -242,7 +245,7 @@ class CheckBoxField(Component):
         name='[no name]',
         value='',
         type='checkbox',
-        error = None
+        error = ''
     )
     template = {
         h.Label(Class='checkbox'):{
@@ -261,7 +264,7 @@ class RadioField(Component):
         name='[no name]',
         value='',
         type='radio',
-        error = None
+        error = ''
     )
     template = {
         h.Div(Class='control'): {
@@ -279,87 +282,97 @@ class RadioField(Component):
 
 class StandardField(Component):
     props = dict(
-        name = None,
-        type = None,
-        value = None,
-        error = None,
-        placeholder=None,
-        options=[]
+        field = None,
     )
     
     template = {
         h.Div(): {
-            h.Template(If='type =="textarea"'):{
+            h.Template(If='field.get("type") =="textarea"'):{
                 TextAreaField(
-                    name = {'name'},
-                    value = {'value'},
-                    errror = {'error'},
-                    placeholder = {'placeholder'}
+                    name = {'field.get("name", "")'},
+                    value = {'field.get("value", "")'},
+                    errror = {'field.get("error", "")'},
+                    placeholder = {'field.get("placeholder", "")'}
         
                 ): '',
             },
-            h.Template(Elif='type=="select"'):{
+            h.Template(Elif='field.get("type") =="select"'):{
                 SelectField(
-                    name = {'name'},
-                    value = {'value'},
-                    error = {'error'},
-                    options= {'options'}
+                    name = {'field.get("name", "")'},
+                    value = {'field.get("value", "")'},
+                    errror = {'field.get("error", "")'},
+                    options= {'field.get("options", [])'}
         
                 ): '',
             },
             
-            h.Template(Elif='type=="checkbox"'):{
+            h.Template(Elif='field.get("type")=="checkbox"'):{
                 CheckBoxField(
-                    name = {'name'},
-                    value = {'value'},
-                    error = {'error'}
+                    name = {'field.get("name", "")'},
+                    value = {'field.get("value", "")'},
+                    errror = {'field.get("error", "")'},
+                    
                 ): '',    
             },
-            h.Template(Elif='type == "radio"'):{
+            h.Template(Elif='field.get("type") == "radio"'):{
                 RadioField(
-                    name = {'name'},
-                    value = {'value'},
-                    error = {'error'}
+                    name = {'field.get("name", "")'},
+                    value = {'field.get("value", "")'},
+                    errror = {'field.get("error", "")'},
+                    
                 ): '',    
             },
             
-            h.Template(Elif='type =="text"'):{
+            h.Template(Elif='field.get("type") =="text"'):{
                 StringField(
-                    name={'name'},
-                    value = {'value'},
-                    error = {'error'},
-                    placeholder = {'placeholder'}
+                    name = {'field.get("name", "")'},
+                    value = {'field.get("value", "")'},
+                    errror = {'field.get("error", "")'},
+                    placeholder = {'field.get("placeholder", "")'}
                 ): '',
             },
             
-            h.Template(Elif='type=="file"'):{
+            h.Template(Elif='field.get("type")=="file"'):{
                 FileField(
-                    name={'name'},
-                    value = {'value'},
-                    error = {'error'}
+                    name = {'field.get("name", "")'},
+                    value = {'field.get("value", "")'},
+                    errror = {'field.get("error", "")'},
+                    
                 ): ''        
             },
-            h.Template(Elif='type=="email"'):{
+            h.Template(Elif='field.get("type")=="email"'):{
                 EmailField(
-                    name={'name'},
-                    value = {'value'},
-                    error = {'error'},
-                    placeholder = {'placeholder'}
+                    name = {'field.get("name", "")'},
+                    value = {'field.get("value", "")'},
+                    errror = {'field.get("error", "")'},
+                    placeholder = {'field.get("placeholder", "")'}
                 ): ''        
             },
 
-            h.Template(Elif='type == "password"'):{
+            h.Template(Elif='field.get("type") == "password"'):{
                 PasswordField(
-                    name={'name'},
-                    value = {'value'},
-                    error = {'error'}
+                    name = {'field.get("name", "")'},
+                    value = {'field.get("value", "")'},
+                    errror = {'field.get("error", "")'},
+                    
 
+                ): ''        
+            },
+            h.Template(Else=''):{
+                
+                ## we default to String field 
+                
+                StringField(
+                    name = {'field.get("name", "")'},
+                    value = {'field.get("value", "")'},
+                    errror = {'field.get("error", "")'},
+                    placeholder = {'field.get("placeholder", "")'}
                 ): ''        
             },
         }
     }
 
-class Form(Component):
+class StandardForm(Component):
     props = dict(
         fields=None
     )
@@ -368,17 +381,70 @@ class Form(Component):
 
             h.Form(If='fields', action='#'):{
                 h.Div(For='fld in fields', Style={'margin':'15px'}):{
-                    StandardField(
-                        name='{fld[name]}',  
-                        type={'fld.get("type", "text")'},
-                        value={'fld.get("value", "")'},
-                        error={'fld.get("error", "")'},
-                        options={'fld.get("options", "")'},
-                        placeholder={'fld.get("placeholder", "What the Fuck")'}
-                    ):'',
+                    StandardField(field = {'fld'}):{},
                 },
                 h.Button(type='submit'): 'Submit'
             },
             h.Div(Else=''): 'Sorry, no fields were passed to this form'
         }    
     }
+
+class HTMLGrid(Component):
+    props = dict(
+        title = '',
+        name = '',
+        columns = [],
+        data = []
+    )
+    template = {
+        h.Div(Class='box'):{
+            #h.Table(id={'name'}, Class="display compact", Style="width:100%"):{
+            
+            h.Table(id={'title'}, Class="table is-bordered is-striped", Style="width:100%"):{
+                h.THead():{
+                    h.TR():{
+                        h.TH(For='col in columns'): '[[ col ]]',
+                    },
+                },
+                h.TBody():{
+                    h.TR(For='dat in data'):{
+                        h.Template(For='d in dat'):{
+                            h.TD(If='d in columns'): '[[ dat[d] ]]'    
+                        },
+                    },
+                }
+            }
+        }                
+    }
+
+class DTGrid(Component):
+    props = dict(
+        title='',
+        name = '',
+        columns = [],
+        data = []
+    )
+    template = {
+        h.Div(Class='box'):{
+            h.Table(Id={'name'}, Class="display compact", Style="width:100%"):{
+            
+            #h.Table(id={'name'}, Class="table is-bordered is-striped", Style="width:100%"):{
+                h.THead():{
+                    h.TR():{
+                        h.TH(For='col in columns'): '[[ col ]]',
+                    },
+                },
+                h.TBody():{
+                    h.TR(For='dat in data'):{
+                        h.Template(For='d in dat'):{
+                            h.TD(If='d in columns'): '[[ dat[d] ]]'    
+                        },
+                    },
+                }
+            },
+            h.Script():"""$(document).ready( function () {
+            $('#%s').DataTable()
+            });""" % '[[ name ]]'
+        }
+    }
+    
