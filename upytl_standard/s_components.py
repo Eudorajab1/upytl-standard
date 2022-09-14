@@ -13,16 +13,14 @@ class HTMLPage(Component):
             h.Head():{
                 h.Title(): '[[page_title]]',
                 h.Meta(charset=b'utf-8'):'',
+                },
+            h.Body():{
                 h.Link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css'):None, 
                 h.Link(rel="stylesheet", href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"):None,
                 h.Link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css", integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==", crossorigin="anonymous"):None,
-                
                 h.Script(src="https://code.jquery.com/jquery-3.5.1.js"):None,
                 h.Script(src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"):None,
-    
-                },
-            h.Body():{
-                
+                    
                 Slot(SlotName=b'nav'):{
                     h.Div():'No NavBar passed to the form'
                 },
@@ -79,7 +77,7 @@ class StandardNavBar(Component):
         buttons=[]
     )
     template = {
-        h.Nav(Class='navbar is-primary', Role='navigation'): {
+        h.Nav(Class='navbar', Role='navigation'): {
             h.Div(Class='navbar-brand'): {
                 h.A(Class='navbar-item', href="https://bulma.io"): '',   
             },
@@ -101,7 +99,7 @@ class StandardNavBar(Component):
                         },
                         h.Template(Else = ''):{
                             h.Div(Class='buttons'):{
-                                h.A(For = 'b in buttons',Class={'b.get("class", "button is-link")'}, Href={'b.get("href", "index")'}):'[[ b["name"] ]]',
+                                h.A(For = 'b in buttons',Class={'b.get("class", "button")'}, Href={'b.get("href", "index")'}):'[[ b["name"] ]]',
                             },
                         }        
                     }
@@ -383,7 +381,7 @@ class StandardForm(Component):
                 h.Div(For='fld in fields', Style={'margin':'15px'}):{
                     StandardField(field = {'fld'}):{},
                 },
-                h.Button(type='submit'): 'Submit'
+                h.Button(type='submit'): 'Submit Button'
             },
             h.Div(Else=''): 'Sorry, no fields were passed to this form'
         }    
@@ -398,12 +396,10 @@ class HTMLGrid(Component):
     )
     template = {
         h.Div(Class='box'):{
-            #h.Table(id={'name'}, Class="display compact", Style="width:100%"):{
-            
             h.Table(id={'title'}, Class="table is-bordered is-striped", Style="width:100%"):{
                 h.THead():{
                     h.TR():{
-                        h.TH(For='col in columns'): '[[ col ]]',
+                        h.TH(For='col in columns'): '[[ col.title() ]]',
                     },
                 },
                 h.TBody():{
@@ -426,12 +422,12 @@ class DTGrid(Component):
     )
     template = {
         h.Div(Class='box'):{
-            h.Table(Id={'name'}, Class="display compact", Style="width:100%"):{
+            h.Table(Id={'name'}, Class="table is-bordered is-striped", Style="width:100%"):{
             
             #h.Table(id={'name'}, Class="table is-bordered is-striped", Style="width:100%"):{
                 h.THead():{
                     h.TR():{
-                        h.TH(For='col in columns'): '[[ col ]]',
+                        h.TH(For='col in columns'): '[[ col.title() ]]',
                     },
                 },
                 h.TBody():{
