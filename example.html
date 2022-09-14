@@ -5,10 +5,13 @@
       This is the page_title placeholder
     </title>
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
   </head>
   <body>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
     <nav Role="navigation" class="navbar is-primary">
       <div class="navbar-brand">
         <a href="https://bulma.io" class="navbar-item"></a>
@@ -181,6 +184,309 @@
                 </button>
               </form>
             </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="title is-5">
+            Standard HTML Grid
+          </div>
+          <div class="box">
+            <table id="" class="table is-bordered is-striped" style="width:100%">
+              <thead>
+                <tr>
+                  <th>
+                    id
+                  </th>
+                  <th>
+                    first_name
+                  </th>
+                  <th>
+                    last_name
+                  </th>
+                  <th>
+                    age
+                  </th>
+                  <th>
+                    status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    0
+                  </td>
+                  <td>
+                    Peter
+                  </td>
+                  <td>
+                    Parker
+                  </td>
+                  <td>
+                    12
+                  </td>
+                  <td>
+                    Undertmined
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    1
+                  </td>
+                  <td>
+                    Joe
+                  </td>
+                  <td>
+                    Bloggs
+                  </td>
+                  <td>
+                    89
+                  </td>
+                  <td>
+                    Somewhere
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    2
+                  </td>
+                  <td>
+                    Valery
+                  </td>
+                  <td>
+                    Elliot
+                  </td>
+                  <td>
+                    22
+                  </td>
+                  <td>
+                    Busy
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    3
+                  </td>
+                  <td>
+                    Joan
+                  </td>
+                  <td>
+                    Bayez
+                  </td>
+                  <td>
+                    19
+                  </td>
+                  <td>
+                    Chilling
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    4
+                  </td>
+                  <td>
+                    Emma
+                  </td>
+                  <td>
+                    Clapton
+                  </td>
+                  <td>
+                    24
+                  </td>
+                  <td>
+                    Working
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    5
+                  </td>
+                  <td>
+                    Jolene
+                  </td>
+                  <td>
+                    Jolene
+                  </td>
+                  <td>
+                    26
+                  </td>
+                  <td>
+                    Sleeping
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    6
+                  </td>
+                  <td>
+                    Kevin
+                  </td>
+                  <td>
+                    Kostner
+                  </td>
+                  <td>
+                    33
+                  </td>
+                  <td>
+                    Eating
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="box">
+          <div class="title is-5">
+            DataTables Grid
+          </div>
+          <div class="box">
+            <table Id="grid" class="display compact" style="width:100%">
+              <thead>
+                <tr>
+                  <th>
+                    id
+                  </th>
+                  <th>
+                    first_name
+                  </th>
+                  <th>
+                    last_name
+                  </th>
+                  <th>
+                    age
+                  </th>
+                  <th>
+                    status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    0
+                  </td>
+                  <td>
+                    Peter
+                  </td>
+                  <td>
+                    Parker
+                  </td>
+                  <td>
+                    12
+                  </td>
+                  <td>
+                    Undertmined
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    1
+                  </td>
+                  <td>
+                    Joe
+                  </td>
+                  <td>
+                    Bloggs
+                  </td>
+                  <td>
+                    89
+                  </td>
+                  <td>
+                    Somewhere
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    2
+                  </td>
+                  <td>
+                    Valery
+                  </td>
+                  <td>
+                    Elliot
+                  </td>
+                  <td>
+                    22
+                  </td>
+                  <td>
+                    Busy
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    3
+                  </td>
+                  <td>
+                    Joan
+                  </td>
+                  <td>
+                    Bayez
+                  </td>
+                  <td>
+                    19
+                  </td>
+                  <td>
+                    Chilling
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    4
+                  </td>
+                  <td>
+                    Emma
+                  </td>
+                  <td>
+                    Clapton
+                  </td>
+                  <td>
+                    24
+                  </td>
+                  <td>
+                    Working
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    5
+                  </td>
+                  <td>
+                    Jolene
+                  </td>
+                  <td>
+                    Jolene
+                  </td>
+                  <td>
+                    26
+                  </td>
+                  <td>
+                    Sleeping
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    6
+                  </td>
+                  <td>
+                    Kevin
+                  </td>
+                  <td>
+                    Kostner
+                  </td>
+                  <td>
+                    33
+                  </td>
+                  <td>
+                    Eating
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <script>
+              $(document).ready( function () {
+            $('#grid').DataTable()
+            });
+            </script>
           </div>
         </div>
         <div class="box">

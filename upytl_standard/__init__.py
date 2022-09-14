@@ -13,7 +13,9 @@ __all__ = (
     'CheckBoxField',
     'RadioField',
     'StandardField',
-    'Form',
+    'StandardForm',
+    'DTGrid',
+    'HTMLGrid'
 )
 
 __author__ = "John Bannister <eudorajab1@gmail.com>"

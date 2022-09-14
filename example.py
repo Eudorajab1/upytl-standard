@@ -37,9 +37,24 @@ t = {
             h.Template():{
                 h.Div(Class='box'):{
                     h.Div():{
-                        Form(fields={'fields'}):'',
+                        StandardForm(fields={'fields'}):'',
                     },
                 },
+                h.Div(Class='box'):{
+                    h.Div(Class='title is-5'):'Standard HTML Grid',
+                    HTMLGrid(name={'grid.get("name")'}, 
+                        columns={'grid.get("columns")'}, 
+                        data={'grid.get("data")'}
+                    ): {},
+                },
+                h.Div(Class='box'):{
+                    h.Div(Class='title is-5'):'DataTables Grid',
+                    DTGrid(name={'grid.get("name")'}, 
+                        columns={'grid.get("columns")'}, 
+                        data={'grid.get("data")'}
+                    ): {},
+                },
+                
                 h.Div(Class='box'):{
                     h.H4(Class='title is-4'):'Tree-view example using template_factory():',
                     TreeView(tree={'tree'}):{}
@@ -153,7 +168,22 @@ ctx = dict(
         {'name':'Log In', 'href':'#'},
         {'name':'Profile', 'href':'#'},
         {'name':'Log Out', 'href':'#'},
-    ]
+    ],
+    grid={
+        'name': "grid", ## note the name cannot include spaces
+        'columns': [
+            'id', 'first_name', 'last_name', 'age', 'status'
+        ],
+        'data': [
+            {'id':'0', 'first_name': 'Peter', 'last_name': 'Parker', 'age':'12', 'status':'Undertmined'},
+            {'id':'1', 'first_name': 'Joe', 'last_name': 'Bloggs', 'age':'89', 'status':'Somewhere'},
+            {'id':'2', 'first_name': 'Valery', 'last_name': 'Elliot', 'age':'22', 'status':'Busy'},
+            {'id':'3', 'first_name': 'Joan', 'last_name': 'Bayez', 'age':'19', 'status':'Chilling'},
+            {'id':'4', 'first_name': 'Emma', 'last_name': 'Clapton', 'age':'24', 'status':'Working'},
+            {'id':'5', 'first_name': 'Jolene', 'last_name': 'Jolene', 'age':'26', 'status':'Sleeping'},
+            {'id':'6', 'first_name': 'Kevin', 'last_name': 'Kostner', 'age':'33', 'status':'Eating'},
+        ],
+    }
 )
 
 rendered = upytl.render(t, ctx, indent=2)
