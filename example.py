@@ -36,20 +36,26 @@ t = {
         SlotTemplate(Slot='content'):{
             h.Template():{
                 h.Div(Class='box'):{
+                    h.Div(Class='title is-5'):'Standard Form Component with Sample Fields',
+                    
                     h.Div():{
                         StandardForm(fields={'fields'}):'',
                     },
                 },
                 h.Div(Class='box'):{
                     h.Div(Class='title is-5'):'Standard HTML Grid',
-                    HTMLGrid(name={'grid.get("name")'}, 
+                    HTMLGrid(
+                        title={'grid.get("title")'}, 
+                        name={'grid.get("name")'}, 
                         columns={'grid.get("columns")'}, 
                         data={'grid.get("data")'}
                     ): {},
                 },
                 h.Div(Class='box'):{
                     h.Div(Class='title is-5'):'DataTables Grid',
-                    DTGrid(name={'grid.get("name")'}, 
+                    DTGrid(
+                        title={'grid.get("title")'}, 
+                        name={'grid.get("name")'}, 
                         columns={'grid.get("columns")'}, 
                         data={'grid.get("data")'}
                     ): {},
@@ -170,7 +176,8 @@ ctx = dict(
         {'name':'Log Out', 'href':'#'},
     ],
     grid={
-        'name': "grid", ## note the name cannot include spaces
+        'title': 'UPYTL Standard Grid Components',
+        'name': "standard_grid", 
         'columns': [
             'id', 'first_name', 'last_name', 'age', 'status'
         ],
