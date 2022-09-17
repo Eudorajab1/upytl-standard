@@ -77,7 +77,7 @@ class StandardNavBar(Component):
         buttons=[]
     )
     template = {
-        h.Nav(Class='navbar', Role='navigation'): {
+        h.Nav(Class='navbar is-light', Role='navigation'): {
             h.Div(Class='navbar-brand'): {
                 h.A(Class='navbar-item', href="https://bulma.io"): '',   
             },
@@ -91,7 +91,7 @@ class StandardNavBar(Component):
                 },
                 h.Div(Class='navbar-end'): {
                     h.Div(Class='navbar-item'): {
-                        h.Div(): 'Welcome [[ user.title() ]]',
+                        h.Div(): 'Welcome [[ user ]]',
                     },
                     h.Div(Class='navbar-item'): {
                         h.Template(If = 'not buttons'):{
@@ -111,6 +111,7 @@ class StandardNavBar(Component):
 class TextAreaField(Component):
     props = dict(
         name='[no name]',
+        label='',
         value=None,
         type='textarea',
         placeholder = None,
@@ -118,7 +119,7 @@ class TextAreaField(Component):
     )
     template = {
         h.Label(Class='label'):{
-            h.Text():'[[name]]',
+            h.Text():'[[label]]',
         },
         h.Div(Class='control'): {
             h.Textarea(Class='textarea', placeholder='placeholder'):'[[value]]',
@@ -149,6 +150,7 @@ class TreeView(Component):
 class StringField(Component):
     props = dict(
         name='[no name]',
+        label='',
         value='',
         type='string',
         placeholder= '',
@@ -157,7 +159,7 @@ class StringField(Component):
     template = {
         h.Template():{
             h.Label(Class='label'):{
-                h.Text():'[[ name ]]',
+                h.Text():'[[ label ]]',
             },
             h.Div(Class='control'): {
                 h.Input(Class='input', type='text', name={'name'}, value={'value'}, placeholder={'placeholder'}):'',
@@ -170,6 +172,7 @@ class StringField(Component):
 class EmailField(Component):
     props = dict(
         name='[no name]',
+        label='',
         value='',
         type='email',
         placeholder='',
@@ -178,7 +181,7 @@ class EmailField(Component):
     template = {
         h.Template():{
             h.Label(Class='label'):{
-                h.Text():'[[ name ]]',
+                h.Text():'[[ label ]]',
                 h.Div(Class='control'): {
                 h.Input(Class='input', type='email', name={'name'}, value={'value'}, placeholder={'placeholder'}):'',
             },
@@ -191,13 +194,14 @@ class EmailField(Component):
 class PasswordField(Component):
     props = dict(
         name='[no name]',
+        label='',
         value='',
         type='password',
         error = ''
     )
     template = {
         h.Label(Class='label required'):{
-            h.Text():'[[ name ]]',
+            h.Text():'[[ label ]]',
             },
             h.Div(Class='control'): {
                 h.Input(Class='input', type='password', name={'name'}, value='value'):'',
@@ -208,6 +212,7 @@ class PasswordField(Component):
 class SelectField(Component):
     props = dict(
         name='[no name]',
+        label='',
         value='',
         type='select',
         error = '',
@@ -215,7 +220,7 @@ class SelectField(Component):
     )
     template = {
         h.Label(Class='label'):{
-        h.Text():'[[ name ]]',
+        h.Text():'[[ label ]]',
         },
         h.Div(Class='control'): {
             h.Select(name={'name'}):{
@@ -227,13 +232,14 @@ class SelectField(Component):
 class FileField(Component):
     props = dict(
         name='[no name]',
+        label='',
         value='',
         type='file',
         error = ''
     )
     template = {
         h.Label(Class='label'):{
-            h.Text():'[[name]]',
+            h.Text():'[[label]]',
         },
         h.Input(type='file', name={'name'}, accept="image/*"):'',
     }
@@ -241,6 +247,7 @@ class FileField(Component):
 class CheckBoxField(Component):
     props = dict(
         name='[no name]',
+        label='',
         value='',
         type='checkbox',
         error = ''
@@ -260,6 +267,7 @@ class CheckBoxField(Component):
 class RadioField(Component):
     props = dict(
         name='[no name]',
+        label='',
         value='',
         type='radio',
         error = ''
@@ -288,8 +296,9 @@ class StandardField(Component):
             h.Template(If='field.get("type") =="textarea"'):{
                 TextAreaField(
                     name = {'field.get("name", "")'},
+                    label = {'field.get("label", "")'},
                     value = {'field.get("value", "")'},
-                    errror = {'field.get("error", "")'},
+                    error = {'field.get("error", "")'},
                     placeholder = {'field.get("placeholder", "")'}
         
                 ): '',
@@ -297,8 +306,9 @@ class StandardField(Component):
             h.Template(Elif='field.get("type") =="select"'):{
                 SelectField(
                     name = {'field.get("name", "")'},
+                    label = {'field.get("label", "")'},
                     value = {'field.get("value", "")'},
-                    errror = {'field.get("error", "")'},
+                    error = {'field.get("error", "")'},
                     options= {'field.get("options", [])'}
         
                 ): '',
@@ -307,16 +317,18 @@ class StandardField(Component):
             h.Template(Elif='field.get("type")=="checkbox"'):{
                 CheckBoxField(
                     name = {'field.get("name", "")'},
+                    label = {'field.get("label", "")'},
                     value = {'field.get("value", "")'},
-                    errror = {'field.get("error", "")'},
+                    error = {'field.get("error", "")'},
                     
                 ): '',    
             },
             h.Template(Elif='field.get("type") == "radio"'):{
                 RadioField(
                     name = {'field.get("name", "")'},
+                    label = {'field.get("label", "")'},
                     value = {'field.get("value", "")'},
-                    errror = {'field.get("error", "")'},
+                    error = {'field.get("error", "")'},
                     
                 ): '',    
             },
@@ -324,25 +336,28 @@ class StandardField(Component):
             h.Template(Elif='field.get("type") =="text"'):{
                 StringField(
                     name = {'field.get("name", "")'},
+                    label = {'field.get("label", "")'},
                     value = {'field.get("value", "")'},
-                    errror = {'field.get("error", "")'},
+                    error = {'field.get("error", "")'},
                     placeholder = {'field.get("placeholder", "")'}
                 ): '',
             },
             
-            h.Template(Elif='field.get("type")=="file"'):{
+            h.Template(Elif='field.get("type")=="file" or field.get("type")=="upload"'):{
                 FileField(
                     name = {'field.get("name", "")'},
+                    label = {'field.get("label", "")'},
                     value = {'field.get("value", "")'},
-                    errror = {'field.get("error", "")'},
+                    error = {'field.get("error", "")'},
                     
                 ): ''        
             },
             h.Template(Elif='field.get("type")=="email"'):{
                 EmailField(
                     name = {'field.get("name", "")'},
+                    label = {'field.get("label", "")'},
                     value = {'field.get("value", "")'},
-                    errror = {'field.get("error", "")'},
+                    error = {'field.get("error", "")'},
                     placeholder = {'field.get("placeholder", "")'}
                 ): ''        
             },
@@ -350,8 +365,9 @@ class StandardField(Component):
             h.Template(Elif='field.get("type") == "password"'):{
                 PasswordField(
                     name = {'field.get("name", "")'},
+                    label = {'field.get("label", "")'},
                     value = {'field.get("value", "")'},
-                    errror = {'field.get("error", "")'},
+                    error = {'field.get("error", "")'},
                     
 
                 ): ''        
@@ -362,8 +378,9 @@ class StandardField(Component):
                 
                 StringField(
                     name = {'field.get("name", "")'},
+                    label = {'field.get("label", "")'},
                     value = {'field.get("value", "")'},
-                    errror = {'field.get("error", "")'},
+                    error = {'field.get("error", "")'},
                     placeholder = {'field.get("placeholder", "")'}
                 ): ''        
             },
@@ -375,16 +392,16 @@ class StandardForm(Component):
         fields=None
     )
     template = {
-        h.Div(Class='box'):{
-
-            h.Form(If='fields', action='#'):{
-                h.Div(For='fld in fields', Style={'margin':'15px'}):{
-                    StandardField(field = {'fld'}):{},
-                },
-                h.Button(type='submit'): 'Submit Button'
+        h.Form(If='fields', method='POST', Class='box', enctype='multipart/form-data'):{
+            h.Div(For='fld in fields', Style={'margin':'15px'}):{
+                StandardField(field = {'fld'}):{},
             },
-            h.Div(Else=''): 'Sorry, no fields were passed to this form'
-        }    
+            h.Div(Class='field'):{
+                h.Input(Class='button is-success is-light', type='submit', value='Submit'): '',
+                h.Input(Class='button is-danger is-light', type='reset', value='Cancel'): '',
+            },
+        },
+        h.Div(Else=''): 'Sorry, no fields were passed to this form'
     }
 
 class HTMLGrid(Component):
