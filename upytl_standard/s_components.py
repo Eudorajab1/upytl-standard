@@ -1,5 +1,5 @@
 from upytl import (
-    Component, Slot, html as h
+    Component, UPYTL, Slot, html as h
 )
 
 class HTMLPage(Component):
@@ -23,6 +23,9 @@ class HTMLPage(Component):
                     
                 Slot(SlotName=b'nav'):{
                     h.Div():'No NavBar passed to the form'
+                },
+                Slot(SlotName=b'flash'):{
+                    h.Div():'No Flash Message passed to the form'
                 },
                 Slot(SlotName=b'content'):{h.Div(): '[there is no default content]'},
                 Slot(SlotName=b'footer'):{
@@ -122,7 +125,9 @@ class TextAreaField(Component):
             h.Text():'[[label]]',
         },
         h.Div(Class='control'): {
-            h.Textarea(Class='textarea', placeholder='placeholder'):'[[value]]',
+            h.Textarea(Class='textarea', name={'name'}):{
+                h.Text():'[[value]]',
+            },    
         },
         h.P(If='error', Class='help has-text-danger'): '[[ error ]]'    
     } 
@@ -293,9 +298,10 @@ class StandardField(Component):
     
     template = {
         h.Div(): {
-            h.Template(If='field.get("type") =="textarea"'):{
+            h.Template(If='field.get("type") =="textarea" or field.get("type")=="text"'):{
                 TextAreaField(
                     name = {'field.get("name", "")'},
+                    type = {'field.get("type", "")'},
                     label = {'field.get("label", "")'},
                     value = {'field.get("value", "")'},
                     error = {'field.get("error", "")'},
@@ -389,7 +395,7 @@ class StandardField(Component):
 
 class StandardForm(Component):
     props = dict(
-        fields=None
+        fields=None,
     )
     template = {
         h.Form(If='fields', method='POST', Class='box', enctype='multipart/form-data'):{
@@ -404,60 +410,132 @@ class StandardForm(Component):
         h.Div(Else=''): 'Sorry, no fields were passed to this form'
     }
 
+class ViewOnlyForm(Component):
+    props = dict(
+        fields=None,
+    )
+    template = {
+        h.Form(If='fields', method='POST', Class='box', enctype='multipart/form-data'):{
+            h.Div(For='fld in fields', Style={'margin':'15px'}):{
+                StandardField(field = {'fld'}):{},
+            },
+        },
+        h.Div(Else=''): 'Sorry, no fields were passed to this form'
+    }
+
+class GridHeader(Component):
+    props=dict(
+        columns=[],
+        labels = [],
+    )
+    template = {
+        h.TH(For='col in labels'): '[[col]]'
+    }
+    
+class RowButtons(Component):
+    props=dict(
+        buttons = []
+    )
+    template = {
+        h.TD( Class="has-text-centered", Style='width:300px'):{
+            h.Template( For='button in buttons'):' [[button]] ',
+        }
+    }
+
+class GridBody(Component):
+    props=dict(
+        row={},
+        columns=[]
+    )
+    template = {
+        h.Template(For='field in row'):{
+            h.Template(If='field == "actions"'):{
+                RowButtons(buttons={'row[field]'}):{},
+            },
+            h.Template(Else=''):{
+                h.TD(): '[[ row[field] ]]',
+            }
+        }        
+    }
+
 class HTMLGrid(Component):
     props = dict(
         title = '',
         name = '',
+        grid_buttons=[],
         columns = [],
+        labels = [],
         data = []
     )
     template = {
         h.Div(Class='box'):{
-            h.Table(id={'title'}, Class="table is-bordered is-striped", Style="width:100%"):{
-                h.THead():{
-                    h.TR():{
-                        h.TH(For='col in columns'): '[[ col.title() ]]',
+            h.Div(Class="column is-12 is-centered"):{
+                h.Template():{
+                    h.Span(Class='title is-4'): '[[title]]',
+                    h.Span(For='button in grid_buttons',Class='is-pulled-right'):{
+                        h.Div(Class='button is-small'):'[[button]]',
                     },
                 },
+            },
+            h.Table(Id={'name'}, Class="table is-bordered is-striped", Style="width:100%"):{
+                h.THead():{
+                    h.TR():{
+                        GridHeader(columns={'columns'}, labels={'labels'}):{},
+                        
+                    },
+                },
+                
                 h.TBody():{
                     h.TR(For='dat in data'):{
-                        h.Template(For='d in dat'):{
-                            h.TD(If='d in columns'): '[[ dat[d] ]]'    
-                        },
+                        GridBody(row={'dat'}, columns={'columns'}):{},
                     },
                 }
             }
-        }                
+        }
     }
+
+import string
 
 class DTGrid(Component):
     props = dict(
-        title='',
+        title = '',
         name = '',
+        name_stripped='',
+        grid_buttons=[],
         columns = [],
+        labels = [],
         data = []
     )
     template = {
+    
         h.Div(Class='box'):{
-            h.Table(Id={'name'}, Class="table is-bordered is-striped", Style="width:100%"):{
-            
-            #h.Table(id={'name'}, Class="table is-bordered is-striped", Style="width:100%"):{
+            h.Div(Class="column is-12 is-centered"):{
+                h.Template():{
+                    h.Span(Class='title is-4'): '[[title]]',
+                    h.Span(For='button in grid_buttons',Class='is-pulled-right'):{
+                        h.Div(Class='button is-small'):'[[button]]',
+                    },
+                },
+            },
+            h.Table(Id={'name_stripped'}, Class="table is-bordered is-striped", Style="width:100%"):{
                 h.THead():{
                     h.TR():{
-                        h.TH(For='col in columns'): '[[ col.title() ]]',
+                        GridHeader(columns={'columns'}, labels={'labels'}):{},
                     },
                 },
                 h.TBody():{
                     h.TR(For='dat in data'):{
-                        h.Template(For='d in dat'):{
-                            h.TD(If='d in columns'): '[[ dat[d] ]]'    
-                        },
+                        GridBody(row={'dat'}, columns={'columns'}):{},
                     },
                 }
             },
             h.Script():"""$(document).ready( function () {
             $('#%s').DataTable()
-            });""" % '[[ name ]]'
+            });""" % '[[ name_stripped ]]'
         }
-    }
-    
+    }    
+    def get_context(self, rprops):
+        name = rprops['name']
+        name_stripped = name.translate(str.maketrans('', '', string.whitespace))
+        return{**rprops, 'name_stripped':name_stripped }
+

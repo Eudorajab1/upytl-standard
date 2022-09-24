@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <nav Role="navigation" class="navbar">
+    <nav Role="navigation" class="navbar is-light">
       <div class="navbar-brand">
         <a href="https://bulma.io" class="navbar-item"></a>
       </div>
@@ -63,7 +63,7 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div>
-              Welcome John
+              Welcome john
             </div>
           </div>
           <div class="navbar-item">
@@ -82,129 +82,136 @@
         </div>
       </div>
     </nav>
+    <div class="notification is-success has-text-centered">
+      Hello and Welcome to the Standard UPYTL components. I am a simulated FLASH message
+    </div>
     <div class="box">
       <div class="title is-5">
         Standard Form Component with Sample Fields
       </div>
       <div>
-        <div class="box">
-          <form action="#">
-            <div style="margin:15px">
-              <div>
-                <label class="label">
-                  Text Field with value
-                </label>
+        <form method="POST" enctype="multipart/form-data" class="box">
+          <div style="margin:15px">
+            <div>
+              <label class="label">
+                Text Field with value
+              </label>
+              <div class="control">
+                <input type="text" name="string" value="Tom is the man" placeholder="Tom" class="input" />
+              </div>
+              <p class="help has-text-danger">
+              </p>
+            </div>
+          </div>
+          <div style="margin:15px">
+            <div>
+              <label class="label">
+                Email field with Placeholder
                 <div class="control">
-                  <input type="text" name="Text Field with value" value="Tom is the man" placeholder="Tom" class="input" />
+                  <input type="email" name="email" value="" placeholder="Email field placeholder" class="input" />
                 </div>
                 <p class="help has-text-danger">
                 </p>
+              </label>
+            </div>
+          </div>
+          <div style="margin:15px">
+            <div>
+              <label class="label">
+                Select Field
+              </label>
+              <div class="control">
+                <select name="select">
+                  <option value="#FF0000" class="js-states form-control">
+                    Choose red
+                  </option>
+                  <option value="#00FF00" class="js-states form-control">
+                    Choose geen
+                  </option>
+                  <option value="#0000FF" class="js-states form-control">
+                    Choose blue
+                  </option>
+                  <option value="#888888" class="js-states form-control">
+                    Choose gray
+                  </option>
+                </select>
               </div>
             </div>
-            <div style="margin:15px">
-              <div>
-                <label class="label">
-                  Email field with Placeholder
-                  <div class="control">
-                    <input type="email" name="Email field with Placeholder" value="" placeholder="Email field placeholder" class="input" />
-                  </div>
-                  <p class="help has-text-danger">
-                  </p>
-                </label>
+          </div>
+          <div style="margin:15px">
+            <div>
+              <label class="label required">
+                Password Field
+              </label>
+              <div class="control">
+                <input type="password" name="password" value="value" class="input" />
               </div>
             </div>
-            <div style="margin:15px">
-              <div>
-                <label class="label">
-                  Select Field
-                </label>
-                <div class="control">
-                  <select name="Select Field">
-                    <option value="#FF0000" class="js-states form-control">
-                      Choose red
-                    </option>
-                    <option value="#00FF00" class="js-states form-control">
-                      Choose geen
-                    </option>
-                    <option value="#0000FF" class="js-states form-control">
-                      Choose blue
-                    </option>
-                    <option value="#888888" class="js-states form-control">
-                      Choose gray
-                    </option>
-                  </select>
+          </div>
+          <div style="margin:15px">
+            <div>
+              <label class="label">
+                Text Area Field
+              </label>
+              <div class="control">
+                <textarea name="textarea" class="textarea">
+                </textarea>
+              </div>
+            </div>
+          </div>
+          <div style="margin:15px">
+            <div>
+              <div class="control">
+                <label class="radio"></label>
+                <input Type="radio" name="name" />
+                  Radio Field
                 </div>
               </div>
             </div>
             <div style="margin:15px">
               <div>
-                <label class="label required">
-                  Password Field
-                </label>
-                <div class="control">
-                  <input type="password" name="Password Field" value="value" class="input" />
-                </div>
-              </div>
-            </div>
-            <div style="margin:15px">
-              <div>
-                <label class="label">
-                  Text Area Field
-                </label>
-                <div class="control">
-                  <textarea placeholder="placeholder" class="textarea">
-                  </textarea>
-                </div>
-              </div>
-            </div>
-            <div style="margin:15px">
-              <div>
-                <div class="control">
-                  <label class="radio"></label>
-                  <input Type="radio" name="name" />
-                    Radio Field
-                  </div>
+                <label class="checkbox">
+                  <input type="checkbox" name="name" checked="" />
+                    Checkbox Field
+                  </label>
                 </div>
               </div>
               <div style="margin:15px">
                 <div>
-                  <label class="checkbox">
-                    <input type="checkbox" name="name" checked="" />
-                      Checkbox Field
-                    </label>
-                  </div>
+                  <label class="label">
+                    File Upload Field
+                  </label>
+                  <input type="file" name="upload" accept="image/*" />
                 </div>
-                <div style="margin:15px">
-                  <div>
-                    <label class="label">
-                      File Upload Field
-                    </label>
-                    <input type="file" name="File Upload Field" accept="image/*" />
-                  </div>
-                </div>
-                <button type="submit">
-                  Submit Button
-                </button>
-              </form>
-            </div>
+              </div>
+              <div class="field">
+                <input type="submit" value="Submit" class="button is-success is-light" />
+                <input type="reset" value="Cancel" class="button is-danger is-light" />
+              </div>
+            </form>
           </div>
         </div>
         <div class="box">
           <div class="title is-5">
-            Standard HTML Grid
+            DataTables Grid
           </div>
           <div class="box">
-            <table id="UPYTL Standard Grid Components" class="table is-bordered is-striped" style="width:100%">
+            <div class="column is-12 is-centered">
+              <span class="title is-4">
+                Standard Grid Components
+              </span>
+            </div>
+            <table Id="standard_grid" class="table is-bordered is-striped" style="width:100%">
               <thead>
                 <tr>
                   <th>
                     Id
                   </th>
                   <th>
-                    First_Name
+                    First Name
                   </th>
                   <th>
-                    Last_Name
+                    Last Name
                   </th>
                   <th>
                     Age
@@ -217,7 +224,7 @@
               <tbody>
                 <tr>
                   <td>
-                    0
+                    1
                   </td>
                   <td>
                     Peter
@@ -234,7 +241,7 @@
                 </tr>
                 <tr>
                   <td>
-                    1
+                    2
                   </td>
                   <td>
                     Joe
@@ -251,7 +258,7 @@
                 </tr>
                 <tr>
                   <td>
-                    2
+                    3
                   </td>
                   <td>
                     Valery
@@ -268,7 +275,7 @@
                 </tr>
                 <tr>
                   <td>
-                    3
+                    4
                   </td>
                   <td>
                     Joan
@@ -285,7 +292,7 @@
                 </tr>
                 <tr>
                   <td>
-                    4
+                    5
                   </td>
                   <td>
                     Emma
@@ -302,7 +309,7 @@
                 </tr>
                 <tr>
                   <td>
-                    5
+                    6
                   </td>
                   <td>
                     Jolene
@@ -319,7 +326,7 @@
                 </tr>
                 <tr>
                   <td>
-                    6
+                    7
                   </td>
                   <td>
                     Kevin
@@ -334,39 +341,9 @@
                     Eating
                   </td>
                 </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="box">
-          <div class="title is-5">
-            DataTables Grid
-          </div>
-          <div class="box">
-            <table Id="standard_grid" class="table is-bordered is-striped" style="width:100%">
-              <thead>
-                <tr>
-                  <th>
-                    Id
-                  </th>
-                  <th>
-                    First_Name
-                  </th>
-                  <th>
-                    Last_Name
-                  </th>
-                  <th>
-                    Age
-                  </th>
-                  <th>
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
                 <tr>
                   <td>
-                    0
+                    8
                   </td>
                   <td>
                     Peter
@@ -383,7 +360,7 @@
                 </tr>
                 <tr>
                   <td>
-                    1
+                    9
                   </td>
                   <td>
                     Joe
@@ -400,7 +377,7 @@
                 </tr>
                 <tr>
                   <td>
-                    2
+                    10
                   </td>
                   <td>
                     Valery
@@ -417,7 +394,7 @@
                 </tr>
                 <tr>
                   <td>
-                    3
+                    11
                   </td>
                   <td>
                     Joan
@@ -434,7 +411,7 @@
                 </tr>
                 <tr>
                   <td>
-                    4
+                    12
                   </td>
                   <td>
                     Emma
@@ -451,7 +428,7 @@
                 </tr>
                 <tr>
                   <td>
-                    5
+                    13
                   </td>
                   <td>
                     Jolene
@@ -468,7 +445,7 @@
                 </tr>
                 <tr>
                   <td>
-                    6
+                    14
                   </td>
                   <td>
                     Kevin
@@ -490,6 +467,279 @@
             $('#standard_grid').DataTable()
             });
             </script>
+          </div>
+        </div>
+        <div class="box">
+          <div class="title is-5">
+            HTML Grid
+          </div>
+          <div class="box">
+            <div class="column is-12 is-centered">
+              <span class="title is-4">
+                Standard Grid Components
+              </span>
+            </div>
+            <table Id="standard_grid" class="table is-bordered is-striped" style="width:100%">
+              <thead>
+                <tr>
+                  <th>
+                    Id
+                  </th>
+                  <th>
+                    First Name
+                  </th>
+                  <th>
+                    Last Name
+                  </th>
+                  <th>
+                    Age
+                  </th>
+                  <th>
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    1
+                  </td>
+                  <td>
+                    Peter
+                  </td>
+                  <td>
+                    Parker
+                  </td>
+                  <td>
+                    12
+                  </td>
+                  <td>
+                    Undertmined
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    2
+                  </td>
+                  <td>
+                    Joe
+                  </td>
+                  <td>
+                    Bloggs
+                  </td>
+                  <td>
+                    89
+                  </td>
+                  <td>
+                    Somewhere
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    3
+                  </td>
+                  <td>
+                    Valery
+                  </td>
+                  <td>
+                    Elliot
+                  </td>
+                  <td>
+                    22
+                  </td>
+                  <td>
+                    Busy
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    4
+                  </td>
+                  <td>
+                    Joan
+                  </td>
+                  <td>
+                    Bayez
+                  </td>
+                  <td>
+                    19
+                  </td>
+                  <td>
+                    Chilling
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    5
+                  </td>
+                  <td>
+                    Emma
+                  </td>
+                  <td>
+                    Clapton
+                  </td>
+                  <td>
+                    24
+                  </td>
+                  <td>
+                    Working
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    6
+                  </td>
+                  <td>
+                    Jolene
+                  </td>
+                  <td>
+                    Jolene
+                  </td>
+                  <td>
+                    26
+                  </td>
+                  <td>
+                    Sleeping
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    7
+                  </td>
+                  <td>
+                    Kevin
+                  </td>
+                  <td>
+                    Kostner
+                  </td>
+                  <td>
+                    33
+                  </td>
+                  <td>
+                    Eating
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    8
+                  </td>
+                  <td>
+                    Peter
+                  </td>
+                  <td>
+                    Parker
+                  </td>
+                  <td>
+                    12
+                  </td>
+                  <td>
+                    Undertmined
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    9
+                  </td>
+                  <td>
+                    Joe
+                  </td>
+                  <td>
+                    Bloggs
+                  </td>
+                  <td>
+                    89
+                  </td>
+                  <td>
+                    Somewhere
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    10
+                  </td>
+                  <td>
+                    Valery
+                  </td>
+                  <td>
+                    Elliot
+                  </td>
+                  <td>
+                    22
+                  </td>
+                  <td>
+                    Busy
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    11
+                  </td>
+                  <td>
+                    Joan
+                  </td>
+                  <td>
+                    Bayez
+                  </td>
+                  <td>
+                    19
+                  </td>
+                  <td>
+                    Chilling
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    12
+                  </td>
+                  <td>
+                    Emma
+                  </td>
+                  <td>
+                    Clapton
+                  </td>
+                  <td>
+                    24
+                  </td>
+                  <td>
+                    Working
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    13
+                  </td>
+                  <td>
+                    Jolene
+                  </td>
+                  <td>
+                    Jolene
+                  </td>
+                  <td>
+                    26
+                  </td>
+                  <td>
+                    Sleeping
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    14
+                  </td>
+                  <td>
+                    Kevin
+                  </td>
+                  <td>
+                    Kostner
+                  </td>
+                  <td>
+                    33
+                  </td>
+                  <td>
+                    Eating
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
         <div class="box">

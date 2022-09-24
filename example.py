@@ -2,28 +2,16 @@ from upytl import (
     Component, Slot, SlotTemplate, UPYTL, html as h
 )
 
-from upytl_standard import * 
+from upytl_standard import (
+    StandardField,
+    StandardForm,
+    StandardNavBar,
+    DTGrid,
+    HTMLPage,
+    HTMLGrid,
+    TreeView,
 
-class TreeView(Component):
-    """
-    This class demonstrates the use of the `template_factory` method
-    which allows to recursively use the component in its template.
-    """
-    props = dict(
-        tree=[],
-        depth=0
-    )
-
-    @staticmethod
-    def template_factory(cls):
-        TreeView = cls
-        return {
-            h.Div(For='it in tree', Style={'margin-left': {'f"{depth * 4}px"'} }): {
-                h.Div(): '[[ it["name"] ]]',
-                TreeView(If='"nodes" in it', depth={'depth+1'}, tree={'it["nodes"]'}): ''
-            },
-        }
-
+)
 
 
 # Now define a specific page template
@@ -33,6 +21,9 @@ t = {
         SlotTemplate(Slot='nav'):{
             StandardNavBar(menu={'menu'}, user={'user_name'}, buttons={'buttons'}): '',
         },
+        SlotTemplate(Slot='flash'):{
+            h.Div(Class="notification is-success has-text-centered"):'Hello and Welcome to the Standard UPYTL components. I am a simulated FLASH message',
+        },
         SlotTemplate(Slot='content'):{
             h.Template():{
                 h.Div(Class='box'):{
@@ -40,23 +31,28 @@ t = {
                     
                     h.Div():{
                         StandardForm(fields={'fields'}):'',
-                    },
+                    }
                 },
-                h.Div(Class='box'):{
-                    h.Div(Class='title is-5'):'Standard HTML Grid',
-                    HTMLGrid(
-                        title={'grid.get("title")'}, 
-                        name={'grid.get("name")'}, 
-                        columns={'grid.get("columns")'}, 
-                        data={'grid.get("data")'}
-                    ): {},
-                },
+                
                 h.Div(Class='box'):{
                     h.Div(Class='title is-5'):'DataTables Grid',
                     DTGrid(
                         title={'grid.get("title")'}, 
-                        name={'grid.get("name")'}, 
-                        columns={'grid.get("columns")'}, 
+                        name={'grid.get("name")'},
+                        grid_buttons={'grid.get("grid_buttons")'},
+                        columns={'grid.get("columns")'},
+                        labels={'grid.get("labels")'}, 
+                        data={'grid.get("data")'}
+                    ): {},
+                },
+                h.Div(Class='box'):{
+                    h.Div(Class='title is-5'):'HTML Grid',
+                    HTMLGrid(
+                        title={'grid.get("title")'}, 
+                        name={'grid.get("name")'},
+                        grid_buttons={'grid.get("grid_buttons")'},
+                        columns={'grid.get("columns")'},
+                        labels={'grid.get("labels")'}, 
                         data={'grid.get("data")'}
                     ): {},
                 },
@@ -73,9 +69,12 @@ t = {
 
 # Define context
 
-def URL():
-    return 'https://github.com/valq7711/upytl'
+cfg = dict(href_prefix = 'app_name')
 
+def URL(rel_href):
+    return f'{cfg["href_prefix"]}/{rel_href}'
+
+u = UPYTL(global_ctx=dict(CFG=cfg, URL=URL))
 
 # Keep in mind, that context (ctx) passed to render upytl.render
 # is inaccessible in custom components, since components are similar to imported functions
@@ -89,10 +88,10 @@ ctx = dict(
     page_title='UPYTL example',
     user_name = 'john',
     fields=[
-        {'name': 'Text Field with value', 'value': 'Tom is the man','placeholder': 'Tom'},
-        {'name': 'Email field with Placeholder', 'type':'email', 'placeholder': 'Email field placeholder'},
+        {'name':'string', 'label': 'Text Field with value', 'value': 'Tom is the man','placeholder': 'Tom'},
+        {'name':'email', 'label':'Email field with Placeholder', 'type':'email', 'placeholder': 'Email field placeholder'},
         {
-            'name': 'Select Field', 'type': 'select', 'value': '#888888',
+            'name':'select', 'label': 'Select Field', 'type': 'select', 'value': '#888888',
             'options': [
                 dict(name='Choose red', value='#FF0000'),
                 dict(name='Choose geen', value='#00FF00'),
@@ -100,11 +99,11 @@ ctx = dict(
                 dict(name='Choose gray', value='#888888'),
             ],
         },
-        {'name': 'Password Field', 'type': 'password'},
-        {'name': 'Text Area Field', 'type': 'textarea', 'placeholder':'This is a textarea placeholder'},
+        {'name':'password','label': 'Password Field', 'type': 'password'},
+        {'name':'textarea', 'label': 'Text Area Field', 'type': 'textarea', 'placeholder':'This is a textarea placeholder'},
         {'name': 'Radio Field', 'type': 'radio', 'value': False },
         {'name': 'Checkbox Field', 'type': 'checkbox', 'value': True },
-        {'name': 'File Upload Field', 'type': 'file' },
+        {'name': 'upload', 'label':'File Upload Field', 'type': 'file' },
     ],
     tree=[
         {
@@ -176,19 +175,28 @@ ctx = dict(
         {'name':'Log Out', 'href':'#'},
     ],
     grid={
-        'title': 'UPYTL Standard Grid Components',
+        'title': 'Standard Grid Components',
         'name': "standard_grid", 
-        'columns': [
-            'id', 'first_name', 'last_name', 'age', 'status'
-        ],
+        'grid_buttons':[],
+        'columns': [{'data':'id'}, {'data':'first_name'}, {'data':'last_name'}, {'data':'age'}, {'data':'status'}],
+            #
+        #],
+        'labels':['Id', 'First Name', 'Last Name', 'Age', 'Status'],
         'data': [
-            {'id':'0', 'first_name': 'Peter', 'last_name': 'Parker', 'age':'12', 'status':'Undertmined'},
-            {'id':'1', 'first_name': 'Joe', 'last_name': 'Bloggs', 'age':'89', 'status':'Somewhere'},
-            {'id':'2', 'first_name': 'Valery', 'last_name': 'Elliot', 'age':'22', 'status':'Busy'},
-            {'id':'3', 'first_name': 'Joan', 'last_name': 'Bayez', 'age':'19', 'status':'Chilling'},
-            {'id':'4', 'first_name': 'Emma', 'last_name': 'Clapton', 'age':'24', 'status':'Working'},
-            {'id':'5', 'first_name': 'Jolene', 'last_name': 'Jolene', 'age':'26', 'status':'Sleeping'},
-            {'id':'6', 'first_name': 'Kevin', 'last_name': 'Kostner', 'age':'33', 'status':'Eating'},
+            {'id':'1', 'first_name': 'Peter', 'last_name': 'Parker', 'age':'12', 'status':'Undertmined'},
+            {'id':'2', 'first_name': 'Joe', 'last_name': 'Bloggs', 'age':'89', 'status':'Somewhere'},
+            {'id':'3', 'first_name': 'Valery', 'last_name': 'Elliot', 'age':'22', 'status':'Busy'},
+            {'id':'4', 'first_name': 'Joan', 'last_name': 'Bayez', 'age':'19', 'status':'Chilling'},
+            {'id':'5', 'first_name': 'Emma', 'last_name': 'Clapton', 'age':'24', 'status':'Working'},
+            {'id':'6', 'first_name': 'Jolene', 'last_name': 'Jolene', 'age':'26', 'status':'Sleeping'},
+            {'id':'7', 'first_name': 'Kevin', 'last_name': 'Kostner', 'age':'33', 'status':'Eating'},
+            {'id':'8', 'first_name': 'Peter', 'last_name': 'Parker', 'age':'12', 'status':'Undertmined'},
+            {'id':'9', 'first_name': 'Joe', 'last_name': 'Bloggs', 'age':'89', 'status':'Somewhere'},
+            {'id':'10', 'first_name': 'Valery', 'last_name': 'Elliot', 'age':'22', 'status':'Busy'},
+            {'id':'11', 'first_name': 'Joan', 'last_name': 'Bayez', 'age':'19', 'status':'Chilling'},
+            {'id':'12', 'first_name': 'Emma', 'last_name': 'Clapton', 'age':'24', 'status':'Working'},
+            {'id':'13', 'first_name': 'Jolene', 'last_name': 'Jolene', 'age':'26', 'status':'Sleeping'},
+            {'id':'14', 'first_name': 'Kevin', 'last_name': 'Kostner', 'age':'33', 'status':'Eating'},
         ],
     }
 )
