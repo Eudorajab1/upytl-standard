@@ -227,13 +227,23 @@ class SelectField(Component):
         h.Label(Class='label'):{
         h.Text():'[[ label ]]',
         },
-        h.Div(Class='control'): {
+        h.Div(Class='select is-fullwidth'): {
             h.Select(name={'name'}):{
-                h.Option(For='opt in options', Class="js-states form-control", value={'opt.get("value")'}): 
-                    '[[ opt.get("name", opt["value"]) ]]'
+                h.Template(For='opt in options'):{
+                    h.Template(If='opt.get("is_selected")'):{
+                        h.Option(value={'opt.get("value")'}, selected={'opt.get("value")'} ):    
+                        '[[ opt.get("option", opt["value"]) ]]',
+                    },
+                    h.Template(Else=''):{
+                        h.Option(value={'opt.get("value")'}):
+                        '[[ opt.get("option", opt["value"]) ]]',    
+                    },
+                },
             },    
         }
-    }    
+    }
+
+
 class FileField(Component):
     props = dict(
         name='[no name]',
@@ -319,7 +329,6 @@ class StandardField(Component):
         
                 ): '',
             },
-            
             h.Template(Elif='field.get("type")=="checkbox"'):{
                 CheckBoxField(
                     name = {'field.get("name", "")'},
