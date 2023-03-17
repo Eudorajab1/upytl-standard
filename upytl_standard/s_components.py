@@ -110,7 +110,39 @@ class StandardNavBar(Component):
             }
         }    
     }
-   
+import json   
+class JasonField(Component):
+    props=dict(
+        name='[no name]',
+        label='',
+        value=None,
+        type='textarea',
+        placeholder = None,
+        error = '',
+        p_value = None
+    )
+    template = {
+        h.Label(Class='label'):{
+            h.Text():'[[label]]',
+        },
+        h.Div(Class='control'): {
+            h.Textarea(Class='textarea', id='myTextArea', name={'name'}):{
+                h.Text():'[[p_value]]',
+            },    
+        },
+        h.P(If='error', Class='help has-text-danger'): '[[ error ]]',    
+        
+    }    
+    def get_context(self, rprops):
+        value = rprops['value']
+        error = rprops['error']
+        if not error:
+            p_value = json.dumps(value,indent='\t') #name.translate(str.maketrans('', '', string.whitespace))
+        else:
+            p_value = value
+        return{**rprops, 'p_value':p_value}
+
+    
 class TextAreaField(Component):
     props = dict(
         name='[no name]',
@@ -221,25 +253,44 @@ class SelectField(Component):
         value='',
         type='select',
         error = '',
-        options = []
+        options = [],
+        multiple=False
     )
     template = {
         h.Label(Class='label'):{
-        h.Text():'[[ label ]]',
+            h.Text():'[[ label ]]',
         },
-        h.Div(Class='select is-fullwidth'): {
-            h.Select(name={'name'}):{
-                h.Template(For='opt in options'):{
-                    h.Template(If='opt.get("is_selected")'):{
-                        h.Option(value={'opt.get("value")'}, selected={'opt.get("value")'} ):    
-                        '[[ opt.get("option", opt["value"]) ]]',
+        h.Template(If='multiple == True'):{
+            h.Div(Class='select is-fullwidth is-multiple'): {
+                h.Select(multiple ='multiple',  name={'name'}):{
+                    h.Template(For='opt in options'):{
+                        h.Template(If='opt.get("is_selected")'):{
+                            h.Option(value={'opt.get("value")'}, selected={'opt.get("value")'} ):    
+                            '[[ opt.get("option", opt["value"]) ]]',
+                        },
+                        h.Template(Else=''):{
+                            h.Option(value={'opt.get("value")'}):
+                            '[[ opt.get("option", opt["value"]) ]]',    
+                        },
                     },
-                    h.Template(Else=''):{
-                        h.Option(value={'opt.get("value")'}):
-                        '[[ opt.get("option", opt["value"]) ]]',    
+                },  
+            },
+        },
+        h.Template(Else=''):{
+            h.Div(Class='select is-fullwidth'): {
+                h.Select(name={'name'}):{
+                    h.Template(For='opt in options'):{
+                        h.Template(If='opt.get("is_selected")'):{
+                            h.Option(value={'opt.get("value")'}, selected={'opt.get("value")'} ):    
+                            '[[ opt.get("option", opt["value"]) ]]',
+                        },
+                        h.Template(Else=''):{
+                            h.Option(value={'opt.get("value")'}):
+                            '[[ opt.get("option", opt["value"]) ]]',    
+                        },
                     },
-                },
-            },    
+                },  
+            },
         }
     }
 
@@ -319,13 +370,25 @@ class StandardField(Component):
         
                 ): '',
             },
+            h.Template(Elif='field.get("type") =="json"'):{
+                JasonField(
+                    name = {'field.get("name", "")'},
+                    type = {'field.get("type", "")'},
+                    label = {'field.get("label", "")'},
+                    value = {'field.get("value", "")'},
+                    error = {'field.get("error", "")'},
+                    placeholder = {'field.get("placeholder", "")'}
+        
+                ): '',
+            },
             h.Template(Elif='field.get("type") =="select"'):{
                 SelectField(
                     name = {'field.get("name", "")'},
                     label = {'field.get("label", "")'},
                     value = {'field.get("value", "")'},
                     error = {'field.get("error", "")'},
-                    options= {'field.get("options", [])'}
+                    options= {'field.get("options", [])'},
+                    multiple={'field.get("multiple", "")'}
         
                 ): '',
             },
@@ -405,12 +468,15 @@ class StandardField(Component):
 class StandardForm(Component):
     props = dict(
         fields=None,
+        id = None,
     )
     template = {
         h.Form(If='fields', method='POST', Class='box', enctype='multipart/form-data'):{
+            h.Div():'Form name is [[id]]',
             h.Div(For='fld in fields', Style={'margin':'15px'}):{
                 StandardField(field = {'fld'}):{},
             },
+            h.Input(type='hidden', name='form_name', value={'id'}):'',
             h.Div(Class='field'):{
                 h.Input(Class='button is-success is-light', type='submit', value='Submit'): '',
                 h.Input(Class='button is-danger is-light', type='reset', value='Cancel'): '',
