@@ -374,7 +374,7 @@ class StandardField(Component):
                 ): '',
             },
             h.Template(Elif='field.get("type") =="json"'):{
-                JasonField(
+                JsonField(
                     name = {'field.get("name", "")'},
                     type = {'field.get("type", "")'},
                     label = {'field.get("label", "")'},
