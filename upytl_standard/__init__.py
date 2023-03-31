@@ -16,7 +16,8 @@ __all__ = (
     'StandardField',
     'StandardForm',
     'DTGrid',
-    'HTMLGrid'
+    'HTMLGrid',
+    'ViewOnlyForm',
 )
 
 __author__ = "John Bannister <eudorajab1@gmail.com>"
