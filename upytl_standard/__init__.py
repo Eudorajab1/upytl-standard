@@ -5,6 +5,7 @@ __all__ = (
     'NavBarItem',
     'StandardNavBar',
     'TextAreaField',
+    'JsonField',
     'TreeView',
     'StringField',
     'PasswordField',
@@ -20,4 +21,4 @@ __all__ = (
 
 __author__ = "John Bannister <eudorajab1@gmail.com>"
 __license__ = "MIT"
-__version__ = "0.0.3"
+__version__ = "0.0.5"
