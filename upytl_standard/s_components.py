@@ -35,7 +35,7 @@ class HTMLPage(Component):
                     h.Footer(Class="footer is-small"):{
                         h.Div(Class= "content has-text-centered"):{
                             h.Template():{
-                                h.P(): 'Powered by UPYTL Standard Components (c) 2022',
+                                h.P(): 'Powered by UPYTL Standard Components (c) 2023',
                             }    
                         }
                     }
@@ -85,9 +85,22 @@ class StandardNavBar(Component):
     template = {
         h.Nav(Class='navbar is-light', Role='navigation'): {
             h.Div(Class='navbar-brand'): {
-                h.A(Class='navbar-item', href="https://bulma.io"): '',   
+                h.A(Class='navbar-item', href={'URL("index")'}):{
+                    h.Img(src={'URL("static/websaw.png")'}, height="100"):'',
+                },
+                h.A(
+                    **{'aria-label':'menu', 'aria-expanded':"false"},
+                    **{'data-target':"navbarStandard"},
+                    role="button",
+                    Class="navbar-burger is-active" 
+                ):{
+                    h.Span(**{'aria-hidden':'true'}):'',
+                    h.Span(**{'aria-hidden':'true'}):'',
+                    h.Span(**{'aria-hidden':'true'}):'',
+                }
+
             },
-            h.Div(Id="navbarBasicExample", Class="navbar-menu"):{
+            h.Div(Id="navbarStandard", Class="navbar-menu is-active"):{
                 h.Div(Class='navbar-start'):{
                     h.Template(For='item in menu'):{
                         NavBarItem(
@@ -106,14 +119,27 @@ class StandardNavBar(Component):
                         h.Template(Else = ''):{
                             h.Div(Class='buttons'):{
                                 h.A(For = 'b in buttons',Class={'b.get("class", "button")'}, Href={'b.get("href", "index")'}):'[[ b["name"] ]]',
-                            },
+                            }
                         }        
                     }
                 }
-            }
-        }    
-    }
+            },
+            h.Script(): 
+            '''
+            $(document).ready(function() {
+                // Check for click events on the navbar burger icon
+                $(".navbar-burger").click(function() {
 
+                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                    $(".navbar-burger").toggleClass("is-active");
+                    $(".navbar-menu").toggleClass("is-active");
+
+                });
+            });
+            '''
+        }
+    }
+   
 class JsonField(Component):
     props=dict(
         name='[no name]',
