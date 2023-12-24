@@ -501,7 +501,6 @@ class StandardForm(Component):
     )
     template = {
         h.Form(If='fields', method='POST', Class='box', enctype='multipart/form-data'):{
-            h.Div(If='id'):'Form name is [[id]]',
             h.Div(For='fld in fields', Style={'margin':'15px'}):{
                 StandardField(field = {'fld'}):{},
             },
